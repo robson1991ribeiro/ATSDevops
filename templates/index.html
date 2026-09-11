@@ -1,14 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Portal de Conhecimento para Suporte Técnico</title>
-</head>
-<body>
-Portal de Conhecimento para Suporte Técnico
-Projeto para estudo de FastAPI, Git e DevOps.
+{% extends "base.html" %}
 
-/windowsWindows
-/redeRede
-</body>
-</html>
+{% block title %}Início | Consulta de Erros e Comandos{% endblock %}
+
+{% block content %}
+<div class="text-center mb-10">
+    <h1 class="text-3xl font-extrabold text-slate-800 sm:text-4xl">Central de Diagnóstico Suporte</h1>
+    <p class="mt-2 text-gray-600">Encontre soluções para falhas comuns e execute comandos de diagnóstico facilmente.</p>
+</div>
+
+<!-- Barra de Busca Geral -->
+<div class="max-w-2xl mx-auto mb-10">
+    <div class="relative">
+        <input 
+            type="text" 
+            id="campoBusca" 
+            onkeyup="filtrarCards()"
+            placeholder="Pesquise por erro, código (ex: 0x80070002) ou comando..." 
+            class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+        >
+        <span class="absolute left-4 top-3.5 text-gray-400 text-lg">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+    </div>
+</div>
+
+<!-- Seção de Acesso Rápido às Categorias -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+    <a href="/windows" class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 transition flex items-start gap-4 group">
+        <div class="p-3 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition">
+            <i class="fa-brands fa-windows text-3xl"></i>
+        </div>
+        <div>
+            <h2 class="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition">Diagnóstico Windows</h2>
+            <p class="text-sm text-gray-500 mt-1">Correção de integridade de arquivos (SFC/DISM), spooler, telas azuis e serviços travados.</p>
+        </div>
+    </a>
+
+    <a href="/rede" class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 transition flex items-start gap-4 group">
+        <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition">
+            <i class="fa-solid fa-network-wired text-3xl"></i>
+        </div>
+        <div>
+            <h2 class="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition">Diagnóstico de Rede</h2>
+            <p class="text-sm text-gray-500 mt-1">Falhas de DNS, renovação de IP, teste de portas, rotas e latência.</p>
+        </div>
+    </a>
+</div>
+
+<!-- Destaques / Comandos Mais Usados -->
+<h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+    <i class="fa-solid fa-star text-amber-500"></i> Comandos Essenciais
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="card-item bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="font-semibold text-slate-900">Reparo de Arquivos do Sistema</h4>
+            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-mono">Windows</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Varre a integridade de todos os arquivos protegidos do sistema e repara quando necessário.</p>
+        <div class="bg-slate-900 text-gray-100 p-2.5 rounded font-mono text-sm flex justify-between items-center">
+            <code id="cmd-sfc">sfc /scannow</code>
+            <button onclick="copiarComando(this, 'cmd-sfc')" class="text-gray-400 hover:text-white text-xs px-2 py-1 bg-slate-800 rounded">
+                <i class="fa-regular fa-copy"></i> Copiar
+            </button>
+        </div>
+    </div>
+
+    <div class="card-item bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="font-semibold text-slate-900">Liberar Cache de DNS</h4>
+            <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-mono">Rede</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Limpa e redefine o cache do resolvedor do cliente DNS local.</p>
+        <div class="bg-slate-900 text-gray-100 p-2.5 rounded font-mono text-sm flex justify-between items-center">
+            <code id="cmd-flush">ipconfig /flushdns</code>
+            <button onclick="copiarComando(this, 'cmd-flush')" class="text-gray-400 hover:text-white text-xs px-2 py-1 bg-slate-800 rounded">
+                <i class="fa-regular fa-copy"></i> Copiar
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
