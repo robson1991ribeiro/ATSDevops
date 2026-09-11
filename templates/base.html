@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal de Erros e Comandos{% endblock %}</title>
+    <!-- Tailwind CSS para visual moderno sem precisar instalar pacotes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar / Cabeçalho -->
+    <header class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-blue-400 transition">
+                <i class="fa-solid fa-terminal text-blue-500"></i>
+                <span>SysHelp | Erros & Comandos</span>
+            </a>
+
+            <!-- Navegação -->
+            <nav class="flex items-center gap-6">
+                <a href="/" class="hover:text-blue-400 font-medium transition">Início</a>
+                <a href="/windows" class="hover:text-blue-400 font-medium transition flex items-center gap-1">
+                    <i class="fa-brands fa-windows"></i> Windows
+                </a>
+                <a href="/rede" class="hover:text-blue-400 font-medium transition flex items-center gap-1">
+                    <i class="fa-solid fa-network-wired"></i> Rede
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-slate-900 text-gray-400 text-center py-4 text-sm mt-auto">
+        <p>Sistema de Consulta de Erros e Diagnóstico &copy; 2026</p>
+    </footer>
+
+    <!-- Script para busca em tempo real e botão de copiar comandos -->
+    <script>
+        // Função de busca instantânea nos cards
+        function filtrarCards() {
+            const input = document.getElementById('campoBusca').value.toLowerCase();
+            const cards = document.querySelectorAll('.card-item');
+
+            cards.forEach(card => {
+                const texto = card.innerText.toLowerCase();
+                if (texto.includes(input)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Função para copiar o comando para a área de transferência
+        function copiarComando(btn, idElemento) {
+            const texto = document.getElementById(idElemento).innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check text-green-400"></i> Copiado!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
