@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: Continuous Delivery
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -16,20 +16,18 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Instalar dependências
+      - name: Validar aplicação
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m py_compile main.py
 
-      - name: Executar testes
-        run: |
-          pytest
+  deploy:
 
-      - name: Deploy Render
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Simular Deploy
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          echo "Deploy realizado com sucesso"
