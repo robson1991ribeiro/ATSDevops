@@ -21,3 +21,13 @@ def test_windows():
 def test_rede():
     response = client.get("/rede")
     assert response.status_code == 200
+
+
+def test_home_content_type():
+    response = client.get("/")
+    assert response.headers["content-type"].startswith("text/html")
+
+
+def test_rota_inexistente():
+    response = client.get("/inexistente")
+    assert response.status_code == 404
